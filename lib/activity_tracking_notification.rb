@@ -39,10 +39,10 @@ class ActivityTrackingNotification
 
       next if !user.email_notification?
 
-      events = Event.find_tracked_events(user, @@tracking_period)
+      events = Event.find_tracked_events(user, @@tracking_period.ago)
       next if events.blank? #if there are no events to send per email, then get the hell out
 
-      question_events = events.select{|e|JSON.parse(e.event).keys[0] == 'question'}
+      question_events = eventsselect{|e|JSON.parse(e.event).keys[0] == 'question'}
       tags = Hash.new
       question_events.each do |question|
         question_data = JSON.parse(question.event)
@@ -62,6 +62,6 @@ class ActivityTrackingNotification
 
       user.deliver_activity_tracking_email!(question_events, tags, events - question_events)
     end
-    Delayed::Job.enqueue ActivityTrackingNotification.new, 0, @@delivery_period
+    Delayed::Job.enqueue ActivityTrackingNotification.new, 0, @@delivery_period.from_now
   end
 end
