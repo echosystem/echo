@@ -20,7 +20,6 @@ module RoutingFilter
     def around_recognize(path, env, &block)
       mode = extract_mode!(path)
       #mode = ['fn']
-      Rails.logger.info "!!!!!!!!!!!!!!!!!!!!!!!!!!!!  #{mode}"
       returning yield do |params|
         @@current_mode = params[:mode] = mode
       end
