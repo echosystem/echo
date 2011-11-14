@@ -11,7 +11,11 @@ class ApplicationController < ActionController::Base
 
   private
   def layout_mode
-    params[:mode] || 'application'
+    if params.has_key?(:mode) and params[:mode] == 'embed-app'
+      return 'embed'
+    else 
+      return params[:mode] || 'application'
+    end   
   end
 
 
@@ -73,7 +77,11 @@ class ApplicationController < ActionController::Base
   # Returns the root URL in normal mode and the app home URL (discuss search for now) in embed mode.
   #
   def base_url
-    params[:mode] == 'embed' ? app_home_url : root_url
+    if params[:mode] == 'embed' or params[:mode] == 'embed_app' or params[:mode] == 'embed_func'
+      app_home_url 
+    else 
+      root_url
+    end
   end
 
   def redirect_to_url(url, message)

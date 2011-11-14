@@ -5,7 +5,7 @@ module RoutingFilter
     cattr_accessor :current_mode
     class << self
       def modes
-        @@modes ||= [:embed]
+        @@modes ||= ['embed', 'embed-app', 'embed-func']
       end
 
       def modes_pattern
@@ -19,6 +19,8 @@ module RoutingFilter
 
     def around_recognize(path, env, &block)
       mode = extract_mode!(path)
+      #mode = ['fn']
+      Rails.logger.info "!!!!!!!!!!!!!!!!!!!!!!!!!!!!  #{mode}"
       returning yield do |params|
         @@current_mode = params[:mode] = mode
       end

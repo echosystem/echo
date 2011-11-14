@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= request[:locale] %>" lang="<%= request[:locale] %>">
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <% title= request[:controller].gsub('/','.') + "." +  request[:action] -%>
+    <title><%= I18n.t('seo.title.' + title) %></title>
+    <meta name="description" content="<%= I18n.t('seo.meta.echo.description') %>"/>
+    <meta name="keywords" content="<%= I18n.t('seo.meta.echo.keywords') %>"/>
+    <link rel="shortcut icon" href="/images/echo_browser_icon.png" type="image/png" />
+
+    <!-- Stylesheets -->
+    <%= stylesheet_link_tag 'echologic',
+                            'signinup',
+                            'jcarousel_skin',
+                            'jquery.autocomplete',
+                            'jquery.rte',
+                            'jScrollPane',
+                            'jquery-ui-1.7.2.custom',
+                            'formtastic',
+                            'formtastic_changes',
+                            'application',
+                            'discuss',
+                            'connect',
+                            'my_echo',
+                            'admin',
+                            'embed',
+                            :cache => 'echo_app' %>
+
+
+    <!-- Javascript -->
+    <%= javascript_include_tag :defaults,
+                               'app/history',
+                               'app/placeholder',
+                               'app/remote_signinup',
+                               'discuss/discuss',
+                               'discuss/statement',
+                               'discuss/statement_form',
+                               'discuss/echoable',
+                               'discuss/alternative',
+                               'discuss/taggable',
+                               'discuss/expandable',
+                               'discuss/breadcrumbs',
+                               'discuss/statement_search',
+                               'discuss/embeddable',
+                               'connect/connect',
+                               'myecho/my_echo',
+                               'jquery.color',
+                               'jquery.simplyCountable',
+                               'jquery.event-filter.min',
+                               'jquery.getUrlParam',
+                               'jquery.ba-url.min',
+                               'jquery.autocomplete',
+                               'jquery.forms',
+                               'jquery.tooltip.min',
+                               'jquery.scrollTo.min',
+                               'jquery.rte1_2min/jquery.rte',
+                               'jquery.rte1_2min/jquery.rte.tb',
+                               'jquery.mousewheel',
+                               'jquery.jcarousel.min',
+                               'jquery.em',
+                               'jquery.jscrollpane.min.js',
+                               'jquery.livequery',
+                               'jquery.toggleval',
+                               'jquery.embedly.min',
+                               :cache => 'echo_app' %>
+
+    <%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? -%>
+  </head>
+
+  <% content_tag :body, :class => "embedded_echo lang_#{I18n.locale}" do %>
+    
+
+    <% content_tag :div, :id => 'app_container' do %>
+      <% content_tag :div,
+                     :id => 'echo_' + (@function_name || 'function'),
+                     :class => 'function_container' do %>
+        <%= yield %>
+      <% end %>
+      
+      
+    <% end %>
+
+    <!-- Dialog container for outer menu. 
+    <div id="dialogContent" style="display: none;"></div>-->
+  <% end %>
+
+</html>
