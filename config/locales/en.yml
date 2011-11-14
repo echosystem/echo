@@ -513,10 +513,12 @@ en:
 
       add_new: New statement
       embed_button: Embed
-      embed_search_title: Embed search results
+      embed_search_title_app: Embed search results as application
+      embed_search_title_func: Embed search results as function
       embed_search_hint: |-
         Copy and paste the code below to embed these search results into YOUR website and make an echo in your community.
-      embed_statement_title: Embed statement
+      embed_statement_title_app: Embed statement as application
+      embed_statement_title_func: Embed statement as function
       embed_statement_hint: |-
         Copy and paste the code below to embed this statement into YOUR website and make an echo in your community.
       copy_url: Link to
