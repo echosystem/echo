@@ -311,7 +311,7 @@ module StatementsHelper
                                :title => I18n.t("discuss.tooltips.create_alternative")) do
           statement_icon_title(I18n.t("discuss.statements.types.alternative"))
         end
-        if alternative_mode?(statement_node) and @discuss_alternatives_question.nil?
+        if alternative_mode?(statement_node) and @discuss_alternatives_questions[dom_id(statement_node)].blank?
           buttons << add_new_child_link(statement_node, "discuss_alternatives_question", :nl => true, :bids => params[:bids], :origin => params[:origin])
         end
       end
