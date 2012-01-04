@@ -462,7 +462,12 @@ class StatementNode < ActiveRecord::Base
       sanitize_sql(["#{table_name}.type IN (?) AND
                      #{table_name}.root_id = ? AND
                      #{table_name}.lft >= ? AND #{table_name}.rgt <= ? ",
-                    opts[:types] || [self.name], opts[:root_id], opts[:lft], opts[:rgt]])
+                    opts[:types] || sibling_types, opts[:root_id], opts[:lft], opts[:rgt]])
+    end
+
+
+    def sibling_types
+      sub_types.map(&:to_s)
     end
 
     public

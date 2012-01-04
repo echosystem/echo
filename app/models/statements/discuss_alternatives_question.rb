@@ -2,9 +2,9 @@ class DiscussAlternativesQuestion < FollowUpQuestion
   has_children_of_types [:Proposal,true],[:BackgroundInfo,true]
   has_linkable_types
 
-  has_one :hub, :class_name => "CasHub", :foreign_key => "question_id"
+  #has_one :hub, :class_name => "CasHub", :foreign_key => "question_id"
   
-  
+  alias :hub :parent
   
   def transpose_mirror_tree
     # create the new twin hub and association between twin hubs
@@ -16,8 +16,9 @@ class DiscussAlternativesQuestion < FollowUpQuestion
     
       
     # create proposals that mirror the alternatives from the parent hub
-    alternatives = hub.children 
+    alternatives = hub.children
     alternatives.each do |alternative|
+      next if alternative.id.eql?(self.id)
       attributes = alternative.attributes
       # delete attributes that we don't want to transpose
       attributes.delete("created_at")
@@ -42,13 +43,16 @@ class DiscussAlternativesQuestion < FollowUpQuestion
     def new_instance(attributes = nil)
       # parent id that comes from the form is from an alternative, we have to delete it and add the new DAQ to the hub of the alternative
       parent_id = attributes ? attributes.delete(:parent_id) : nil
+      hub = StatementNode.find(parent_id).hub if parent_id
       new_daq = super
-      new_daq.hub = StatementNode.find(parent_id).hub if parent_id
+      new_daq.parent = hub
+      #new_daq.hub = hub 
       new_daq
     end
     
     def is_mirror_discussion?
       true
     end
+    
   end
 end
