@@ -41,6 +41,8 @@ class FollowUpQuestion < Question
     def is_top_statement?
       true
     end
+    
+    protected
 
     def children_joins
       " LEFT JOIN #{Statement.table_name} ON #{self.table_name}.statement_id = #{Statement.table_name}.id"
@@ -49,6 +51,10 @@ class FollowUpQuestion < Question
     def state_conditions(opts)
       sanitize_sql(["AND (#{Statement.table_name}.editorial_state_id = ? OR #{self.table_name}.creator_id = ?) ",
                         StatementState['published'].id, opts[:user] ? opts[:user].id : -1])
+    end
+    
+    def sub_types
+      [:FollowUpQuestion, :DiscussAlternativesQuestion]
     end
   end
 end

@@ -33,6 +33,10 @@ module ActsAsDouble
           def name_for_siblings
             self.superclass.name.underscore
           end
+          
+          def sibling_types
+            [self.name]
+          end
 
           #
           # Overrides normal behaviour. Delegates to sub_types and merges the results.

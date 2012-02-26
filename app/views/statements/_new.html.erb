@@ -8,9 +8,10 @@
 						                   #{@statement_node_type.taggable? ? 'taggable' : ''}
 						                   #{@statement_node_type.echoable? ? 'echoable' : ''}
                                #{@statement_node_type.has_embeddable_data? ? 'embeddable no_type' : ''}",
-                               'dom-parent' => (statement_node.parent_node and !@statement_node_type.is_mirror_discussion?) ?
-                               "#{dom_class(statement_node.parent_node)}_#{statement_node.parent_node.target_id}" :
-                               params[:origin] } do |form| -%>
+                               'dom-parent' => statement_node.parent_node ?
+                                               "#{dom_class(statement_node.parent_node)}_#{statement_node.parent_node.target_id}" : 
+                                               params[:origin]
+                               } do |form| -%>
 
 	<%= hidden_field_tag :origin, @previous_node ? "#{@previous_type}#{@previous_node.id}" : (params[:origin]||"") %>
   <%= hidden_field_tag :bids, @bids || params[:bids] || '' %>
