@@ -1500,6 +1500,7 @@ a.statement_link:hover {
   left: 7px;
   height: 30px;
   overflow: visible;
+  text-align: center;
 }
 
 #statements .header_buttons .prev {
@@ -1548,33 +1549,33 @@ a.statement_link:hover {
   color: #7bb031;
 }
 
-#statements .header .alternative_close {
-	left: 132px;
-  position: absolute;
-  top: 11px;
-	background: url("../images/page/discuss/statement_icons_16.png");
-	display: inline-block;
-	width: 16px;
-	height: 16px;
+#statements .header .alternative_header .label {
+	font-size: 11px;
+  font-weight: bold;
+	position: relative;
+  margin-left: 20px;
+  top: 12px;
+  cursor: default;
 }
 
-#statements .header .alternative_header .header_link {
-  padding-top: 2px;
+#statements .header .alternative_close {
+	background: url("../images/page/icons/small_x_button.png");
+  width: 12px;
+	height: 12px;
+  display: inline-block;
+  position: relative;
+  top: 14px;
+}
+
+#statements .header .alternative_close:hover {
+  background-position: 0 -12px;
 }
 
 #statements .header .alternative_header .add_new_button {
 	margin: 0;
+  position: relative;
+  top: 3px;
 }
-
-#statements .header .alternative_header .label {
-	float: left;
-	font-size: 11px;
-  font-weight: bold;
-	left: 50px;
-  position: absolute;
-  top: 13px;
-}
-
 
 /*******************************/
 /* Prev/Next Statement buttons */
