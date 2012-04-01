@@ -73,7 +73,7 @@ module ActiveRecord
               # if a twin hub exists, then i can assume all my siblings are already mirrored
               
               sibling_alternative = alternatives.first
-              mirrored_sibling_alternative = sibling_alternative.statement.statement_nodes(:conditions => ["parent_id = ?", hub.twin_hub_id]).first
+              mirrored_sibling_alternative = sibling_alternative.statement.statement_nodes.find(:first, :conditions => ["id != ? AND parent_id = ?", sibling_alternative.id, hub.twin_hub_id])
               
               mirrored_type = mirrored_sibling_alternative.class.alternative_types.first
               
@@ -89,6 +89,7 @@ module ActiveRecord
               # add the id of the new twin hub as the parent_id
               attributes["parent_id"] = hub.twin_hub_id
               attributes["root_id"] = mirrored_sibling_alternative.root_id
+              
               mirrored_type.to_s.constantize.create(attributes)
             end
 
