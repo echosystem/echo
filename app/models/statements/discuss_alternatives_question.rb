@@ -6,6 +6,11 @@ class DiscussAlternativesQuestion < FollowUpQuestion
   
   alias :hub :parent
   
+  delegate :lft, :rgt, :to => :parent_node
+  def target_root_id
+    self.root_id
+  end
+  
   def transpose_mirror_tree
     # create the new twin hub and association between twin hubs
     new_hub = CasHub.create(:root_id => question.target_id, :parent_id => question.target_id,
@@ -33,6 +38,7 @@ class DiscussAlternativesQuestion < FollowUpQuestion
       attributes["root_id"] = new_hub.root_id
       Proposal.create(attributes)
     end
+    self.reload
   end
   
   def parent_node
