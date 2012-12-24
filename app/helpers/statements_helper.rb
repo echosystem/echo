@@ -136,7 +136,8 @@ module StatementsHelper
       link_content <<  content_tag(:span, I18n.t("discuss.statements.embed_button"), :class => 'label')
       link_content
     end
-    content << render_embed_panel(discuss_search_url(:mode => :embed, :search_terms => params[:search_terms]), 'search')
+    content << render_embed_panel(discuss_search_url(:mode => :embed, :search_terms => params[:search_terms]), 'search',
+                                  discuss_search_url(:mode => 'embed-func', :search_terms => params[:search_terms]))
   end
 
 
@@ -144,27 +145,39 @@ module StatementsHelper
   # Creates a link to embed echo with the given statement node as entry point into the system.
   #
   def render_statement_embed_button(statement_node)
-    url = statement_node_url(statement_node, :locale => I18n.locale, :mode => :embed)
+    app_url = statement_node_url(statement_node, :locale => I18n.locale, :mode => :embed)
+    func_url = statement_node_url(statement_node, :locale => I18n.locale, :mode => 'embed-func')
     content = ""
     content << link_to(I18n.t("discuss.statements.embed_button"), '#',
                        :class => 'embed_button text_button')
-    content << render_embed_panel(url, 'statement')
+    content << render_embed_panel(app_url, 'statement', func_url)
     content
+  end
+
+  def iframe(url, height)
+    return %Q{<iframe src="#{url}" width="100%" height="#{height}px" frameborder="0"></iframe>}
   end
 
 
   #
   # Renders the embed statement panel to copy the embed code for the currently displayed statement.
   #
-  def render_embed_panel(url, mode)
-    embedded_code = %Q{<iframe src="#{url}" width="100%" height="4000px" frameborder="0"></iframe>}
+  def render_embed_panel(embed_app_url, mode, embed_func_url=nil)
+    embed_app_code = iframe(embed_app_url, 4000)
+    embed_func_code = embed_func_url ? iframe(embed_func_url, 600) : nil
     content_tag(:div,
                 :class => 'embed_panel popup_panel',
                 :style => "display:none") do
       panel = ''
-      panel << content_tag(:div, I18n.t("discuss.statements.embed_#{mode}_title"), :class => 'panel_header')
+      panel << content_tag(:div, I18n.t("discuss.statements.embed_#{mode}_title_app"), :class => 'panel_header')
       panel << content_tag(:div, I18n.t("discuss.statements.embed_#{mode}_hint"))
-      panel << content_tag(:div, h(embedded_code), :class => 'embed_code')
+      panel << content_tag(:div, h(embed_app_code), :class => 'embed_code')
+      panel << "<br/>"
+      if embed_func_code
+        panel << content_tag(:div, I18n.t("discuss.statements.embed_#{mode}_title_func"), :class => 'panel_header')
+        panel << content_tag(:div, I18n.t("discuss.statements.embed_#{mode}_hint"))
+        panel << content_tag(:div, h(embed_func_code), :class => 'embed_code')
+      end
       panel
     end
   end
